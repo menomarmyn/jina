@@ -1,6 +1,6 @@
 // Вкладки вне основного сценария P0: простые рабочие точки входа.
 import { AssetCard, Button, Card, DemoBadge, NavBar } from '../components/ui';
-import { CUSTODY, GOLD, PARTNERS, PROFILES, UPDATED_AT } from '../mocks/data';
+import { APP_NAME, CUSTODY, GOLD, PARTNERS, PROFILES, UPDATED_AT } from '../mocks/data';
 import { grams, kzt } from '../lib/format';
 import { homeView, partnerValue } from '../lib/derived';
 import { useStore } from '../store';
@@ -41,7 +41,7 @@ export function CardTab() {
       <NavBar title="Карта" />
       <div className="flex flex-col gap-4 px-4 pb-6">
         <div className="relative aspect-[1.586] w-full overflow-hidden rounded-l bg-accent p-5 text-accent-fg shadow-card">
-          <div className="text-[15px] font-semibold">[Название] by BCC</div>
+          <div className="text-[15px] font-semibold">{APP_NAME}</div>
           <div className="tnum absolute bottom-5 left-5 text-[17px] tracking-widest">•••• 4821</div>
           <div className="absolute bottom-5 right-5 text-[12px] opacity-80">Демо-карта</div>
         </div>

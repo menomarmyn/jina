@@ -1,7 +1,7 @@
 // Синтетические данные демо. Источник чисел — docs/01-product-strategy.md, раздел 7.
 // Тенге — целые ₸, граммы — целые микрограммы (1 г = 1 000 000 µg).
 
-export const APP_NAME = '[Название] by BCC';
+export const APP_NAME = 'JINABACK';
 export const QUOTE_TIME_LABEL = 'чт, 5 ноября, 14:32';
 export const UPDATED_AT = '14:32';
 

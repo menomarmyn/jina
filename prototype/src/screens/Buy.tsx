@@ -171,7 +171,8 @@ export function BuyConfirm() {
           <FeeBreakdown q={q} ask={quote.ask} bid={quote.bid} />
         </Card>
         <div className="flex items-center justify-between px-1 text-[13px] text-muted">
-          <span>Золото хранит {CUSTODY.gold}</span>
+          <button type="button" onClick={() => d({ type: 'SHEET', sheet: 'custody' })} className="min-h-[44px] text-left">Золото хранит {CUSTODY.gold}</button>
+          <button type="button" onClick={() => d({ type: 'SHEET', sheet: 'pricing' })} className="min-h-[44px] shrink-0 pl-3 font-medium text-accent">Как считается цена</button>
         </div>
         <RiskBanner />
         <div className="mt-auto"><Button loading={submitting} onClick={submit}>Купить за {kzt(amount)}</Button></div>
@@ -233,7 +234,6 @@ export function BuyPending() {
 /** Шаг 3: успех. */
 export function BuySuccess() {
   const { s, d } = useStore();
-  const [where, setWhere] = useState(false);
   const op = [...s.ledger.ops].reverse().find((o) => o.kind === 'buy' && o.status === 'succeeded');
   if (!op) return null;
   const sellNow = valueUg(op.ug ?? 0, op.bid ?? GOLD.bid);
@@ -249,22 +249,13 @@ export function BuySuccess() {
           <div className="tnum flex justify-between text-[15px]"><span className="text-muted">Списано</span><span>{kzt(op.amount)}</span></div>
           <div className="tnum flex justify-between text-[15px]"><span className="text-muted">По цене продажи сейчас</span><span>≈ {kzt(sellNow)}</span></div>
         </Card>
-        <button type="button" onClick={() => setWhere(true)} className="self-start text-[15px] font-medium text-accent">Где хранится</button>
+        <button type="button" onClick={() => d({ type: 'SHEET', sheet: 'custody' })} className="self-start text-[15px] font-medium text-accent">Где хранится</button>
         <RiskBanner compact />
       </div>
       <div className="flex flex-col gap-3">
         {!s.cashbackMode && <Button onClick={() => d({ type: 'NAV', to: 'cashback' })}>Выбрать кешбэк</Button>}
         <Button variant={s.cashbackMode ? 'primary' : 'secondary'} onClick={() => d({ type: 'NAV', to: 'home' })}>На главную</Button>
       </div>
-      <BottomSheet open={where} onClose={() => setWhere(false)} title="Кто хранит ваши активы">
-        <div className="flex flex-col gap-2 text-[15px]">
-          <p><b>Тенге</b> — на счёте в {CUSTODY.kzt}.</p>
-          <p><b>Золото</b> — граммы учтены на вашем счёте в приложении, золото хранит {CUSTODY.gold}.</p>
-          <p><b>Кошельки партнёров</b> — только просмотр: мы видим баланс, но не можем торговать или выводить.</p>
-          <p className="text-[13px] text-muted">Названия партнёров в демо условные. Регуляторная модель — гипотеза для отдельной проверки.</p>
-          <Button variant="secondary" onClick={() => setWhere(false)}>Понятно</Button>
-        </div>
-      </BottomSheet>
     </div>
   );
 }

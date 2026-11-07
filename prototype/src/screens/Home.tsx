@@ -25,8 +25,14 @@ export function Home() {
   return (
     <div className="flex flex-col gap-4 px-4 pb-6 pt-[max(12px,env(safe-area-inset-top))]">
       <div className="flex items-center justify-between pt-2">
-        <button type="button" onClick={onLogo} className="text-[15px] font-semibold" aria-label={APP_NAME}>{APP_NAME}</button>
-        <DemoBadge />
+        <button type="button" onClick={onLogo} className="min-w-0 truncate text-[15px] font-semibold" aria-label={APP_NAME}>{APP_NAME}</button>
+        <div className="flex items-center gap-1">
+          <DemoBadge short />
+          <button type="button" onClick={() => d({ type: 'SHEET', sheet: 'custody' })} aria-label="Кто хранит ваши активы"
+            className="flex h-11 w-11 items-center justify-center rounded-full text-muted">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z" /></svg>
+          </button>
+        </div>
       </div>
 
       <div className="px-1">
@@ -83,6 +89,7 @@ export function Home() {
               <button type="button" disabled={s.ledger.goldUg === 0} onClick={() => d({ type: 'NAV', to: 'sell' })}
                 className="min-h-[44px] rounded-m bg-surface2 text-[15px] font-semibold text-text disabled:opacity-40">Продать</button>
             </div>
+            <button type="button" onClick={() => d({ type: 'SHEET', sheet: 'pricing' })} className="mt-2 min-h-[44px] text-[14px] font-medium text-accent">Как считается цена</button>
           </AssetCard>
 
           {connected.map(([id, h]) => {
@@ -123,6 +130,12 @@ export function Home() {
             </div>
           </button>
         </>
+      )}
+      {!empty && (
+        <button type="button" onClick={() => d({ type: 'NAV', to: 'history' })} className="flex min-h-[52px] items-center justify-between rounded-l bg-surface px-4 text-left shadow-card">
+          <span className="text-[15px] font-semibold">История операций</span>
+          <span className="tnum text-[14px] text-muted">{s.ledger.ops.length}</span>
+        </button>
       )}
       <p className="px-1 text-[11px] leading-snug text-muted">Синтетические данные для демо. Названия партнёров условные. Котировки на чт, 5 ноября, {UPDATED_AT}.</p>
     </div>

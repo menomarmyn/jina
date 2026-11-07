@@ -11,11 +11,13 @@ import { Assets, CardTab, Me } from './screens/Tabs';
 import { DemoPanel } from './screens/DemoPanel';
 import { SellAmount, SellSuccess } from './screens/Sell';
 import { Metrics } from './screens/Metrics';
+import { History } from './screens/History';
+import { Sheets } from './screens/Sheets';
 
 const SCREENS: Record<Screen, () => JSX.Element | null> = {
   onboarding: Onboarding, profile: ProfileSelect, home: Home, assets: Assets, card: CardTab, cashback: Cashback, me: Me,
   topup: TopUp, buy: BuyAmount, confirm: BuyConfirm, pending: BuyPending, success: BuySuccess, partner: PartnerConnect,
-  sell: SellAmount, sellSuccess: SellSuccess, metrics: Metrics,
+  sell: SellAmount, sellSuccess: SellSuccess, metrics: Metrics, history: History,
 };
 
 function Shell() {
@@ -45,6 +47,7 @@ function Shell() {
         {isTab && <TabBar active={s.screen as TabScreen} onChange={(t) => d({ type: 'NAV', to: t })} />}
         <div aria-hidden onClick={onHotZone} className="absolute left-1/2 top-0 z-30 h-6 w-28 -translate-x-1/2" />
         {s.toast &&<Toast key={s.toast.id} text={s.toast.text} onDone={clearToast} />}
+        <Sheets />
         <DemoPanel />
       </div>
     </div>

@@ -27,6 +27,8 @@ export function Assets() {
           <AssetCard key={id} title={PARTNERS.find((x) => x.id === id)?.name ?? id} caption={`Только просмотр · обновлено ${UPDATED_AT}`}
             value={`≈ ${kzt(partnerValue(h))}`} sub="ориентировочно" />
         ))}
+        <Button variant="secondary" onClick={() => d({ type: 'NAV', to: 'history' })}>История операций</Button>
+        <Button variant="ghost" onClick={() => d({ type: 'SHEET', sheet: 'custody' })}>Кто хранит ваши активы</Button>
       </div>
     </div>
   );

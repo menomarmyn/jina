@@ -296,6 +296,10 @@ export function TabBar({ active, onChange }: { active: TabScreen; onChange: (t: 
   );
 }
 
-export function DemoBadge() {
-  return <span className="rounded-full bg-surface2 px-2.5 py-1 text-[11px] font-medium text-muted">Демо · синтетические данные</span>;
+export function DemoBadge({ short }: { short?: boolean }) {
+  return (
+    <span className="whitespace-nowrap rounded-full bg-surface2 px-2.5 py-1 text-[11px] font-medium text-muted" title="Синтетические данные для демо">
+      {short ? 'Демо' : 'Демо · синтетические данные'}
+    </span>
+  );
 }

@@ -6,7 +6,7 @@ import type { E1Mode } from './lib/quotes';
 import { setEventProfile } from './lib/events';
 
 export type TabScreen = 'home' | 'assets' | 'card' | 'cashback' | 'me';
-export type Screen = 'onboarding' | 'profile' | TabScreen | 'topup' | 'buy' | 'confirm' | 'pending' | 'success' | 'partner' | 'sell' | 'sellSuccess' | 'metrics';
+export type Screen = 'onboarding' | 'profile' | TabScreen | 'topup' | 'buy' | 'confirm' | 'pending' | 'success' | 'partner' | 'sell' | 'sellSuccess' | 'metrics' | 'history';
 export const TAB_SCREENS: TabScreen[] = ['home', 'assets', 'card', 'cashback', 'me'];
 
 export interface Demo { e1: E1Mode; e4: boolean; shuffleCashback: boolean }
@@ -26,7 +26,10 @@ export interface State {
   demoOpen: boolean;
   expireNonce: number;
   toast: { id: number; text: string } | null;
+  sheet: SheetId | null;
 }
+
+export type SheetId = 'custody' | 'pricing';
 
 export type Action =
   | { type: 'NAV'; to: Screen; replace?: boolean }
@@ -44,6 +47,7 @@ export type Action =
   | { type: 'EXPIRE_NOW' }
   | { type: 'TOAST'; text: string }
   | { type: 'CLEAR_TOAST' }
+  | { type: 'SHEET'; sheet: SheetId | null }
   | { type: 'RESET'; profileId?: ProfileId; onboarded?: boolean }
   | { type: 'LOAD_FINAL' }
   | { type: 'PRESET_ERROR'; kzt: number; amount: number };
@@ -67,6 +71,7 @@ function freshFor(profileId: ProfileId, onboarded: boolean, demo: Demo = DEMO_DE
     demoOpen: false,
     expireNonce: 0,
     toast: null,
+    sheet: null,
   };
 }
 
@@ -110,6 +115,8 @@ function reducer(s: State, a: Action): State {
       return { ...s, toast: { id: ++toastSeq, text: a.text } };
     case 'CLEAR_TOAST':
       return { ...s, toast: null };
+    case 'SHEET':
+      return { ...s, sheet: a.sheet, demoOpen: false };
     case 'RESET':
       return freshFor(a.profileId ?? s.profileId, a.onboarded ?? false, s.demo);
     case 'LOAD_FINAL': {
@@ -145,7 +152,7 @@ function load(): State {
     const raw = localStorage.getItem(KEY);
     if (!raw) return initial;
     const saved = JSON.parse(raw) as Partial<State>;
-    const s = { ...initial, ...saved, demoOpen: false, toast: null, expireNonce: 0 } as State;
+    const s = { ...initial, ...saved, demoOpen: false, toast: null, sheet: null, expireNonce: 0 } as State;
     if (TRANSIENT.includes(s.screen)) return { ...s, screen: s.onboarded ? 'home' : 'onboarding', history: [] };
     return s;
   } catch {
@@ -160,7 +167,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setEventProfile(s.profileId);
     try {
-      const { toast: _t, demoOpen: _o, ...persist } = s;
+      const { toast: _t, demoOpen: _o, sheet: _sh, ...persist } = s;
       localStorage.setItem(KEY, JSON.stringify(persist));
     } catch { /* без хранилища тоже работаем */ }
   }, [s]);

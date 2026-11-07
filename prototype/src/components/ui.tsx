@@ -258,7 +258,8 @@ export function Toast({ text, onDone }: { text: string; onDone: () => void }) {
     return () => clearTimeout(t);
   }, [text, onDone]);
   return (
-    <div className="anim-sheet pointer-events-none absolute inset-x-4 top-[max(12px,env(safe-area-inset-top))] z-50 rounded-m bg-text px-4 py-3 text-[14px] text-bg shadow-card" role="status">
+    // Прижат к низу над таб-баром и кнопками действий, не перекрывает шапку; клики проходят насквозь
+    <div className="anim-sheet pointer-events-none absolute inset-x-4 bottom-[calc(92px+env(safe-area-inset-bottom))] z-50 rounded-m bg-text px-4 py-3 text-[14px] text-bg shadow-card" role="status">
       {text}
     </div>
   );

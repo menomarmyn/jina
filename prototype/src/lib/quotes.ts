@@ -11,8 +11,9 @@ export function baseQuote(): Quote {
   return { id: nextId(), ask: GOLD.ask, bid: GOLD.bid };
 }
 
-export function requote(mode: E1Mode): Quote {
-  if (mode === 'off') return baseQuote();
+/** Перекотировка при истечении. «off» — курс остаётся прежним (новая котировка по той же цене). */
+export function requote(mode: E1Mode, current: Pick<Quote, 'ask' | 'bid'>): Quote {
+  if (mode === 'off') return { id: nextId(), ask: current.ask, bid: current.bid };
   return { id: nextId(), ...E1_PRICES[mode] };
 }
 

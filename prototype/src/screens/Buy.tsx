@@ -105,7 +105,7 @@ export function BuyConfirm() {
 
   const expire = useCallback(() => {
     track('quote_expired', { quoteId: quote.id });
-    const next = requote(s.demo.e1);
+    const next = requote(s.demo.e1, quote);
     setLeft(QUOTE_TTL_SEC);
     if (next.ask !== quote.ask) {
       track('requote_shown', { quoteId: next.id, ask: next.ask });

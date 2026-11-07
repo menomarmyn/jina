@@ -37,7 +37,7 @@ export function Home() {
       <div className="grid grid-cols-3 gap-2">
         {[
           { label: 'Пополнить', to: 'topup' as const },
-          { label: 'Купить золото', to: 'buy' as const },
+          { label: 'Купить', to: 'buy' as const },
           { label: 'Кешбэк', to: 'cashback' as const },
         ].map((a) => (
           <button key={a.label} type="button" onClick={() => { if (a.to === 'buy') d({ type: 'DRAFT_BUY', amount: null }); d({ type: 'NAV', to: a.to }); }}

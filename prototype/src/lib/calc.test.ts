@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { cashbackMonth, cashbackToGold, holdingValue, largestRemainder, portfolio, quoteBuy, validateBuy } from './calc';
 import { applyOp, type Ledger, type Op } from './ledger';
+import { requote } from './quotes';
 import { grams, kzt, shareTenths } from './format';
 import { CASHBACK, E1_PRICES, GOLD, LIMITS, USDT } from '../mocks/data';
 
@@ -64,6 +65,17 @@ describe('проверки покупки', () => {
     expect(validateBuy(60_000, ctx(10_000))).toEqual({ kind: 'limit', available: 50_000, limit: 50_000 }));
   it('30 000 из 50 000 — W1, 60%', () => expect(validateBuy(30_000, ctx(50_000))).toEqual({ kind: 'warn', pct: 60 }));
   it('10 000 из 50 000 — ок', () => expect(validateBuy(10_000, ctx(50_000)).kind).toBe('ok'));
+});
+
+describe('перекотировка', () => {
+  it('режим «Без изменений» оставляет текущий курс', () => {
+    expect(requote('off', { ask: GOLD.ask, bid: GOLD.bid })).toMatchObject({ ask: 61_875, bid: 61_250 });
+    expect(requote('off', E1_PRICES.up)).toMatchObject({ ask: 62_000, bid: 61_375 });
+  });
+  it('«Вверх» и «Вниз» дают цены §7.4', () => {
+    expect(requote('up', GOLD)).toMatchObject(E1_PRICES.up);
+    expect(requote('down', GOLD)).toMatchObject(E1_PRICES.down);
+  });
 });
 
 describe('реестр', () => {

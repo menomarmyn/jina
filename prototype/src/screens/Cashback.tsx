@@ -53,7 +53,7 @@ export function Cashback() {
           <li>0,5% с покупок картой, не больше {kzt(CASHBACK.cap)} в месяц</li>
           <li>+2% у партнёров-магазинов, за их счёт</li>
           <li>Зачисление в первый рабочий день месяца, следующее — {CASHBACK.nextCredit}</li>
-          <li>Граммы — по курсу покупки, без комиссии 1%; разница курсов покупки и продажи действует</li>
+          <li>Граммы — по курсу покупки. Комиссия 1% не берётся, но действует разница курсов покупки и продажи</li>
           <li className="tnum">Пример: {kzt(m.base)} базовый + {kzt(m.bonus)} у партнёров = {kzt(m.total)}</li>
         </ul>
         <div className="mt-auto"><Button disabled={!sel} loading={loading} onClick={save}>Сохранить выбор</Button></div>

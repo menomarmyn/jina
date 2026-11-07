@@ -134,11 +134,11 @@ export function BuyConfirm() {
   const submit = async () => {
     if (submitting) return;
     setSubmitting(true);
-    setE1(null);
     const id = opRef.current ?? `buy-${quote.id}`;
     opRef.current = id;
     const op: Op = { id, kind: 'buy', ts: Date.now(), amount, fee: q.fee, ug: q.ug, ask: quote.ask, bid: quote.bid, status: 'succeeded' };
-    track('purchase_submitted', { operationId: id, quoteId: quote.id });
+    track('purchase_submitted', { operationId: id, quoteId: quote.id, afterRequote: e1 !== null });
+    setE1(null);
     if (s.demo.e4) {
       await netDelay(900);
       d({ type: 'SET_PENDING', op: { ...op, status: 'pending' } });

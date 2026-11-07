@@ -63,6 +63,7 @@ export function Me() {
         <Card className="text-[14px] leading-snug text-muted">
           Синтетические данные для демо. Деньги, котировки и партнёры тестовые. Никаких личных данных, ключей и seed-фраз.
         </Card>
+        <Button variant="secondary" onClick={() => d({ type: 'NAV', to: 'metrics' })}>Метрики демо</Button>
         <Button variant="secondary" onClick={() => d({ type: 'DEMO_OPEN', open: true })}>Демо-панель</Button>
         <Button variant="ghost" onClick={() => d({ type: 'RESET' })}>Начать демо заново</Button>
       </div>

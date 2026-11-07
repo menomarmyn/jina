@@ -34,6 +34,7 @@ export function DemoPanel() {
         <Group title="Сценарий">
           <Chip onClick={() => { clearEvents(); d({ type: 'RESET', profileId: 'dauren', onboarded: false }); }}>Сброс к онбордингу</Chip>
           <Chip onClick={() => d({ type: 'LOAD_FINAL' })}>Итог сценария Даурена</Chip>
+          <Chip onClick={() => { close(); d({ type: 'NAV', to: 'metrics' }); }}>Метрики демо</Chip>
         </Group>
         <Group title="Курс при истечении котировки (E1)">
           {(['off', 'up', 'down'] as E1Mode[]).map((m) => (

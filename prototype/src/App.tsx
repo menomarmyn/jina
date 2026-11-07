@@ -9,10 +9,12 @@ import { Cashback } from './screens/Cashback';
 import { PartnerConnect } from './screens/Partner';
 import { Assets, CardTab, Me } from './screens/Tabs';
 import { DemoPanel } from './screens/DemoPanel';
+import { SellAmount, SellSuccess } from './screens/Sell';
 
 const SCREENS: Record<Screen, () => JSX.Element | null> = {
   onboarding: Onboarding, profile: ProfileSelect, home: Home, assets: Assets, card: CardTab, cashback: Cashback, me: Me,
   topup: TopUp, buy: BuyAmount, confirm: BuyConfirm, pending: BuyPending, success: BuySuccess, partner: PartnerConnect,
+  sell: SellAmount, sellSuccess: SellSuccess,
 };
 
 function Shell() {

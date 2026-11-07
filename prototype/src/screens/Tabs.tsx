@@ -20,7 +20,7 @@ export function Assets() {
           </div>
           <div className="mt-3 grid grid-cols-2 gap-2">
             <Button onClick={() => { d({ type: 'DRAFT_BUY', amount: null }); d({ type: 'NAV', to: 'buy' }); }}>Купить</Button>
-            <Button variant="secondary" onClick={() => d({ type: 'TOAST', text: 'Продажа в тенге появится в следующей версии демо' })}>Продать</Button>
+            <Button variant="secondary" disabled={s.ledger.goldUg === 0} onClick={() => d({ type: 'NAV', to: 'sell' })}>Продать</Button>
           </div>
         </AssetCard>
         {Object.entries(s.partners).map(([id, h]) => (

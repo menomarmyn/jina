@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { cashbackMonth, cashbackToGold, holdingValue, largestRemainder, portfolio, quoteBuy, validateBuy } from './calc';
+import { cashbackMonth, cashbackToGold, holdingValue, largestRemainder, portfolio, quoteBuy, sellForKzt, validateBuy } from './calc';
 import { applyOp, type Ledger, type Op } from './ledger';
 import { requote } from './quotes';
 import { grams, kzt, shareTenths } from './format';
@@ -65,6 +65,25 @@ describe('проверки покупки', () => {
     expect(validateBuy(60_000, ctx(10_000))).toEqual({ kind: 'limit', available: 50_000, limit: 50_000 }));
   it('30 000 из 50 000 — W1, 60%', () => expect(validateBuy(30_000, ctx(50_000))).toEqual({ kind: 'warn', pct: 60 }));
   it('10 000 из 50 000 — ок', () => expect(validateBuy(10_000, ctx(50_000)).kind).toBe('ok'));
+});
+
+describe('продажа золота в тенге', () => {
+  it('вернуть 5 000 ₸ из 0,1600 г: 81 633 µg, к получению 5 000 ₸, комиссия 0', () => {
+    const s = sellForKzt(5_000, 160_000, GOLD.bid);
+    expect(s).toMatchObject({ ug: 81_633, fee: 0, receive: 5_000, remainingUg: 78_367, max: 9_800 });
+    expect(grams(s.ug)).toBe('0,0816 г');
+  });
+  it('продать всё: 0,1600 г → 9 800 ₸', () => {
+    expect(sellForKzt(9_800, 160_000, GOLD.bid)).toMatchObject({ ug: 160_000, receive: 9_800, remainingUg: 0 });
+    expect(sellForKzt(50_000, 160_000, GOLD.bid).receive).toBe(9_800);
+  });
+  it('реестр: продажа зачисляет тенге и списывает граммы, себестоимость пропорционально', () => {
+    const l0: Ledger = { kzt: 40_000, goldUg: 160_000, goldCost: 10_000, spentToday: 10_000, ops: [] };
+    const sell: Op = { id: 's-1', kind: 'sell', ts: 0, amount: 5_000, ug: 81_633, bid: GOLD.bid, status: 'succeeded' };
+    const l = applyOp(applyOp(l0, sell), sell);
+    expect(l).toMatchObject({ kzt: 45_000, goldUg: 78_367, goldCost: 4_898, spentToday: 10_000 });
+    expect(l.ops).toHaveLength(1);
+  });
 });
 
 describe('перекотировка', () => {

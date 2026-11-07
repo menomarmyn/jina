@@ -6,7 +6,7 @@ import type { E1Mode } from './lib/quotes';
 import { setEventProfile } from './lib/events';
 
 export type TabScreen = 'home' | 'assets' | 'card' | 'cashback' | 'me';
-export type Screen = 'onboarding' | 'profile' | TabScreen | 'topup' | 'buy' | 'confirm' | 'pending' | 'success' | 'partner';
+export type Screen = 'onboarding' | 'profile' | TabScreen | 'topup' | 'buy' | 'confirm' | 'pending' | 'success' | 'partner' | 'sell' | 'sellSuccess';
 export const TAB_SCREENS: TabScreen[] = ['home', 'assets', 'card', 'cashback', 'me'];
 
 export interface Demo { e1: E1Mode; e4: boolean; shuffleCashback: boolean }
@@ -137,7 +137,7 @@ function reducer(s: State, a: Action): State {
 }
 
 const KEY = 'neobank-demo-state-v1';
-const TRANSIENT: Screen[] = ['confirm', 'pending', 'success'];
+const TRANSIENT: Screen[] = ['confirm', 'pending', 'success', 'sellSuccess'];
 
 function load(): State {
   const initial = freshFor('dauren', false);

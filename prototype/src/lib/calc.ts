@@ -23,6 +23,17 @@ export function quoteSell(ug: number, bid: number, feeBp = 0) {
   return { gross, fee, receive: gross - fee };
 }
 
+/**
+ * Продажа под желаемую сумму в ₸: граммы вверх до µg (чтобы получить не меньше цели),
+ * но не больше, чем есть. К получению — вниз.
+ */
+export function sellForKzt(target: number, holdingUg: number, bid: number, feeBp = 0) {
+  const need = Math.ceil((target * UG_PER_G) / bid);
+  const ug = Math.max(0, Math.min(holdingUg, need));
+  const { gross, fee, receive } = quoteSell(ug, bid, feeBp);
+  return { ug, gross, fee, receive, remainingUg: holdingUg - ug, max: quoteSell(holdingUg, bid, feeBp).receive };
+}
+
 export interface CashbackRules { baseBp: number; cap: number; merchantBp: number }
 
 /** Кешбэк за месяц в ₸: базовый с потолком + повышенный у мерчантов вне потолка. */

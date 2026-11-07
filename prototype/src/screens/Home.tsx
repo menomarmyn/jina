@@ -57,8 +57,7 @@ export function Home() {
             title="Золото" accent="gold"
             caption={`Хранит ${CUSTODY.gold}`}
             value={grams(s.ledger.goldUg)}
-            sub={`если продать сейчас ≈ ${kzt(v.pf.gold)}`}
-            onClick={() => { d({ type: 'DRAFT_BUY', amount: null }); d({ type: 'NAV', to: 'buy' }); }}
+            sub={s.ledger.goldUg > 0 ? `если продать сейчас ≈ ${kzt(v.pf.gold)}` : 'пока нет'}
           >
             {s.ledger.goldUg > 0 && (
               <div className="mt-3 flex flex-col gap-2 border-t border-border pt-3 text-[13px]">
@@ -78,6 +77,12 @@ export function Home() {
                 </div>
               </div>
             )}
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              <button type="button" onClick={() => { d({ type: 'DRAFT_BUY', amount: null }); d({ type: 'NAV', to: 'buy' }); }}
+                className="min-h-[44px] rounded-m bg-accent-soft text-[15px] font-semibold text-accent">{s.ledger.goldUg > 0 ? 'Купить' : 'Купить от 1 000 ₸'}</button>
+              <button type="button" disabled={s.ledger.goldUg === 0} onClick={() => d({ type: 'NAV', to: 'sell' })}
+                className="min-h-[44px] rounded-m bg-surface2 text-[15px] font-semibold text-text disabled:opacity-40">Продать</button>
+            </div>
           </AssetCard>
 
           {connected.map(([id, h]) => {

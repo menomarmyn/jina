@@ -84,10 +84,10 @@ export function PresetChip({ active, onClick, children }: { active?: boolean; on
   );
 }
 
-export function AmountInput({ value, onChange, id }: { value: number | null; onChange: (v: number | null) => void; id: string }) {
+export function AmountInput({ value, onChange, id, label = 'Сумма покупки' }: { value: number | null; onChange: (v: number | null) => void; id: string; label?: string }) {
   return (
     <label htmlFor={id} className="block rounded-l bg-surface px-4 py-5 text-center shadow-card">
-      <span className="text-[13px] text-muted">Сумма покупки</span>
+      <span className="text-[13px] text-muted">{label}</span>
       <div className="mt-1 flex items-baseline justify-center gap-1">
         <input
           id={id}

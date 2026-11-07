@@ -13,11 +13,12 @@ import { SellAmount, SellSuccess } from './screens/Sell';
 import { Metrics } from './screens/Metrics';
 import { History } from './screens/History';
 import { Sheets } from './screens/Sheets';
+import { Gold } from './screens/Gold';
 
 const SCREENS: Record<Screen, () => JSX.Element | null> = {
   onboarding: Onboarding, profile: ProfileSelect, home: Home, assets: Assets, card: CardTab, cashback: Cashback, me: Me,
   topup: TopUp, buy: BuyAmount, confirm: BuyConfirm, pending: BuyPending, success: BuySuccess, partner: PartnerConnect,
-  sell: SellAmount, sellSuccess: SellSuccess, metrics: Metrics, history: History,
+  sell: SellAmount, sellSuccess: SellSuccess, metrics: Metrics, history: History, gold: Gold,
 };
 
 function Shell() {

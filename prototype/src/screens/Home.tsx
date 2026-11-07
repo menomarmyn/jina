@@ -89,7 +89,10 @@ export function Home() {
               <button type="button" disabled={s.ledger.goldUg === 0} onClick={() => d({ type: 'NAV', to: 'sell' })}
                 className="min-h-[44px] rounded-m bg-surface2 text-[15px] font-semibold text-text disabled:opacity-40">Продать</button>
             </div>
-            <button type="button" onClick={() => d({ type: 'SHEET', sheet: 'pricing' })} className="mt-2 min-h-[44px] text-[14px] font-medium text-accent">Как считается цена</button>
+            <div className="mt-2 flex justify-between">
+              <button type="button" onClick={() => d({ type: 'NAV', to: 'gold' })} className="min-h-[44px] text-[14px] font-medium text-accent">Подробнее о золоте</button>
+              <button type="button" onClick={() => d({ type: 'SHEET', sheet: 'pricing' })} className="min-h-[44px] text-[14px] font-medium text-accent">Как считается цена</button>
+            </div>
           </AssetCard>
 
           {connected.map(([id, h]) => {

@@ -103,6 +103,15 @@ export function validateBuy(
   return { kind: 'ok' };
 }
 
+/** Прогресс к цели в граммах: доля (0–100, вниз) и отметки с флагом «достигнуто», плюс ближайшая следующая. */
+export function goalProgress(ug: number, marks: number[]) {
+  const goal = marks[marks.length - 1];
+  const pct = Math.min(100, Math.floor((ug * 100) / goal));
+  const list = marks.map((m) => ({ ug: m, pctOfGoal: (m * 100) / goal, reached: ug >= m }));
+  const next = list.find((m) => !m.reached) ?? null;
+  return { pct, marks: list, next, leftToNextUg: next ? next.ug - ug : 0 };
+}
+
 /** Изменение в процентах, для подписи «ориентировочно». */
 export function changePct(now: number, before: number): number {
   return before ? ((now - before) / before) * 100 : 0;

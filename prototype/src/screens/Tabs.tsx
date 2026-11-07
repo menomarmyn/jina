@@ -18,7 +18,8 @@ export function Assets() {
           <div className="tnum mt-3 grid grid-cols-2 gap-2 text-[13px] text-muted">
             <span>Покупка {kzt(GOLD.ask)}/г</span><span className="text-right">Продажа {kzt(GOLD.bid)}/г</span>
           </div>
-          <div className="mt-3 grid grid-cols-2 gap-2">
+          <button type="button" onClick={() => d({ type: 'NAV', to: 'gold' })} className="mt-2 min-h-[44px] text-[14px] font-medium text-accent">Подробнее о золоте</button>
+          <div className="mt-1 grid grid-cols-2 gap-2">
             <Button onClick={() => { d({ type: 'DRAFT_BUY', amount: null }); d({ type: 'NAV', to: 'buy' }); }}>Купить</Button>
             <Button variant="secondary" disabled={s.ledger.goldUg === 0} onClick={() => d({ type: 'NAV', to: 'sell' })}>Продать</Button>
           </div>

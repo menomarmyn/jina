@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { cashbackMonth, cashbackToGold, holdingValue, largestRemainder, portfolio, quoteBuy, sellForKzt, validateBuy } from './calc';
+import { cashbackMonth, cashbackToGold, goalProgress, holdingValue, largestRemainder, portfolio, quoteBuy, sellForKzt, validateBuy } from './calc';
 import { applyOp, type Ledger, type Op } from './ledger';
 import { requote } from './quotes';
 import { grams, kzt, shareTenths } from './format';
-import { CASHBACK, E1_PRICES, GOLD, LIMITS, USDT } from '../mocks/data';
+import { CASHBACK, E1_PRICES, GOLD, GOLD_MARKS_UG, GOLD_WEEK, LIMITS, USDT } from '../mocks/data';
 
 const ctx = (k: number, spent = 0) => ({ kzt: k, spentToday: spent, min: LIMITS.min, dailyLimit: LIMITS.daily });
 
@@ -83,6 +83,22 @@ describe('продажа золота в тенге', () => {
     const l = applyOp(applyOp(l0, sell), sell);
     expect(l).toMatchObject({ kzt: 45_000, goldUg: 78_367, goldCost: 4_898, spentToday: 10_000 });
     expect(l.ops).toHaveLength(1);
+  });
+});
+
+describe('цель «1 г»', () => {
+  it('0,1600 г: 16%, отметка 0,1 г пройдена, следующая 0,25 г — ещё 0,0900 г', () => {
+    const g = goalProgress(160_000, GOLD_MARKS_UG);
+    expect(g.pct).toBe(16);
+    expect(g.marks.map((m) => m.reached)).toEqual([true, false, false, false]);
+    expect(g.next?.ug).toBe(250_000);
+    expect(grams(g.leftToNextUg)).toBe('0,0900 г');
+  });
+  it('без золота — 0%, следующая 0,1 г', () => {
+    expect(goalProgress(0, GOLD_MARKS_UG)).toMatchObject({ pct: 0, leftToNextUg: 100_000 });
+  });
+  it('синтетическая неделя заканчивается вчера 61 000 и сегодня 61 250 (§7.2)', () => {
+    expect(GOLD_WEEK.slice(-2).map((p) => p.bid)).toEqual([GOLD.bidYesterday, GOLD.bid]);
   });
 });
 

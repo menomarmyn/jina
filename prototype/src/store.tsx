@@ -6,7 +6,7 @@ import type { E1Mode } from './lib/quotes';
 import { setEventProfile } from './lib/events';
 
 export type TabScreen = 'home' | 'assets' | 'card' | 'cashback' | 'me';
-export type Screen = 'onboarding' | 'profile' | TabScreen | 'topup' | 'buy' | 'confirm' | 'pending' | 'success' | 'partner' | 'sell' | 'sellSuccess' | 'metrics' | 'history';
+export type Screen = 'onboarding' | 'profile' | TabScreen | 'topup' | 'buy' | 'confirm' | 'pending' | 'success' | 'partner' | 'sell' | 'sellSuccess' | 'metrics' | 'history' | 'gold';
 export const TAB_SCREENS: TabScreen[] = ['home', 'assets', 'card', 'cashback', 'me'];
 
 export interface Demo { e1: E1Mode; e4: boolean; shuffleCashback: boolean }

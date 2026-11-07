@@ -1,0 +1,219 @@
+<title>Крипто-необанк BCC: итог этапа</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: одна колонка-отчёт, ширина чтения ~880px; таблицы в своих скролл-контейнерах; золото — единственный акцент */
+:root{
+  --bg:#F5F6F4; --surface:#FFFFFF; --ink:#16201E; --muted:#5B6764; --line:#DDE2DF;
+  --gold:#A27A1F; --gold-soft:#F3EAD3; --ok:#2E7D5B; --ok-soft:#DFF1E8; --warn:#9A5B12; --warn-soft:#F8E8D2; --todo:#4A5A8C; --todo-soft:#E4E8F4;
+  --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111615; --surface:#182120; --ink:#E7ECEA; --muted:#9AA7A3; --line:#2A3533;
+  --gold:#D9B357; --gold-soft:#332A14; --ok:#6CCB9C; --ok-soft:#163327; --warn:#E3A55A; --warn-soft:#3A2913; --todo:#9EAEE6; --todo-soft:#1E2540; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111615; --surface:#182120; --ink:#E7ECEA; --muted:#9AA7A3; --line:#2A3533;
+  --gold:#D9B357; --gold-soft:#332A14; --ok:#6CCB9C; --ok-soft:#163327; --warn:#E3A55A; --warn-soft:#3A2913; --todo:#9EAEE6; --todo-soft:#1E2540; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15.5px;line-height:1.55;margin:0}
+.wrap{max-width:880px;margin:0 auto;padding-block:40px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:44px}
+h1,h2,h3{text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(28px,5vw,40px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:22px;font-weight:700}
+h3{font-size:16px;font-weight:600}
+p{margin:0;max-width:68ch}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+section{display:flex;flex-direction:column;gap:16px}
+.lead{font-size:18px;color:var(--ink)}
+.lead b{color:var(--gold)}
+header{display:flex;flex-direction:column;gap:14px;border-bottom:1px solid var(--line);padding-bottom:28px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13.5px}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.p-ok{background:var(--ok-soft);color:var(--ok)}
+.p-warn{background:var(--warn-soft);color:var(--warn)}
+.p-todo{background:var(--todo-soft);color:var(--todo)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14.5px}
+th,td{text-align:left;vertical-align:top;padding:10px 14px;border-bottom:1px solid var(--line)}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td.k{font-family:var(--f-mono);color:var(--gold);font-weight:500;white-space:nowrap}
+/* сценарий — реальная последовательность, поэтому нумерация */
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;counter-reset:s}
+.flow li{counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.flow li::before{content:counter(s);font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.flow b{font-weight:600}
+.flow .num{color:var(--gold);font-size:13.5px}
+.total{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 22px;background:var(--gold-soft);border-radius:12px;padding:18px 20px}
+.total .big{font-family:var(--f-mono);font-size:30px;font-weight:500;color:var(--gold)}
+.total span{color:var(--ink);font-size:14px}
+ul.dec{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;max-width:72ch}
+ul.dec b{font-weight:600}
+.stages{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0;border-left:2px solid var(--line);margin-left:6px}
+.stages>li{position:relative;padding:0 0 22px 22px;display:flex;flex-direction:column;gap:6px}
+.stages>li:last-child{padding-bottom:0}
+.stages>li::before{content:"";position:absolute;left:-7px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--gold)}
+.stages ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;color:var(--ink);max-width:72ch}
+.stages .tag{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.rule{background:var(--surface);border:1px solid var(--gold);border-radius:10px;padding:14px 16px}
+.rule b{color:var(--gold)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.box ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:18px}
+code{font-family:var(--f-mono);font-size:.9em;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:0 4px}
+</style>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">BCC Future Talent · Crypto Neobank Case</div>
+  <h1>Итог продуктового этапа и план разработки</h1>
+  <p class="lead">«[Название] by BCC»: тенге, золото и цифровые активы в одном портфеле, где <b>цена продажи всегда на виду</b>. Самостоятельное приложение, не биржа.</p>
+  <div class="meta"><span>7 ноября 2026</span><span>Стратегия v2.1 проверена финансовым критиком, блокеров нет</span><span>Дизайн в работе в Figma</span></div>
+</header>
+
+<section>
+  <h2>Что получилось</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Артефакт</th><th>Что внутри</th><th>Статус</th></tr></thead>
+    <tbody>
+      <tr><td>Бриф</td><td>Кейс BCC и направления команды</td><td><span class="pill p-ok">Готов</span></td></tr>
+      <tr><td>Продуктовая стратегия v2.1</td><td>Позиционирование, 7 направлений, сквозной сценарий, бизнес-модель, гипотезы, метрики, моки</td><td><span class="pill p-ok">Готова</span></td></tr>
+      <tr><td>Два ревью финансового критика</td><td>Unit-экономика, каннибализация тенге, риски геймификации, пивоты</td><td><span class="pill p-ok">Готовы</span></td></tr>
+      <tr><td>Спецификация для Figma v1</td><td>Токены, компоненты, экраны. Цифры и партнёры устарели</td><td><span class="pill p-warn">Устарела</span></td></tr>
+      <tr><td>Макет в Figma</td><td>Делает дизайнер команды</td><td><span class="pill p-todo">В работе</span></td></tr>
+      <tr><td>Прототип</td><td>React + Tailwind, моки, состояния ошибок</td><td><span class="pill p-todo">Ждёт Figma</span></td></tr>
+    </tbody>
+  </table></div>
+  <p style="color:var(--muted);font-size:14px">Работа разделена между четырьмя AI-агентами: продакт, дизайнер, финансовый критик, кодер. Каждый правит только свой документ.</p>
+</section>
+
+<section>
+  <h2>Сквозной сценарий</h2>
+  <p>Персона — Даурен, 20 лет, Digital Natives. Котировки на четверг, 5 ноября 2026, 14:32: в будний день рынок золота открыт. Сценарий охватывает 5 направлений: кошелёк, OTC, золото, кешбэк, партнёры МФЦА.</p>
+  <ol class="flow">
+    <li><b>Знакомство</b><span>3 экрана: что это, кто хранит, как платите и риск</span></li>
+    <li><b>Тестовый вход</b><span>Выбор профиля, без персональных данных</span></li>
+    <li><b>Пополнение</b><span class="num">0 → 50 000 ₸</span></li>
+    <li><b>Покупка золота</b><span class="num">10 000 ₸ → 0,1600 г</span><span>Курс зафиксирован на 30 с</span></li>
+    <li><b>Успех</b><span class="num">по цене продажи ≈ 9 800 ₸</span></li>
+    <li><b>Кешбэк</b><span>Тенге или граммы, без выбора по умолчанию</span></li>
+    <li><b>Партнёр МФЦА</b><span class="num">Vexelia (демо), 20 USDT</span><span>Только просмотр</span></li>
+  </ol>
+  <div class="total">
+    <div class="big">59 960 ₸</div>
+    <span>всего в активах по цене продажи</span>
+    <span class="num">в приложении 49 800 ₸ · у партнёров 10 160 ₸</span>
+    <span class="num">тенге 66,7% · USDT 16,9% · золото 16,3%</span>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Расчёт покупки</th><th>Значение</th></tr></thead>
+    <tbody>
+      <tr><td>Сумма / комиссия 1% / идёт на золото</td><td class="num">10 000 / 100 / 9 900 ₸</td></tr>
+      <tr><td>Курс покупки / продажи за 1 г</td><td class="num">61 875 / 61 250 ₸ (разница 1,01%)</td></tr>
+      <tr><td>Вы получите</td><td class="num">0,1600 г</td></tr>
+      <tr><td>Если продать сразу</td><td class="num">≈ 9 800 ₸ (−200 ₸: комиссия + разница курсов)</td></tr>
+      <tr><td>Главная ошибка демо: «Курс обновился»</td><td class="num">62 000 ₸ → 0,1596 г · 61 750 ₸ → 0,1603 г</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Ключевые решения после критики</h2>
+  <ul class="dec">
+    <li><b>Золото учитываем off-chain.</b> Граммы ведутся у нас, сделки с хранителем идут пакетами. Токен выпускается в блокчейне только при выводе от 1 г, комиссию сети платит клиент.</li>
+    <li><b>Кешбэк в два уровня.</b> Базовый 0,5% с потолком 2 000 ₸ в месяц плюс +2% у мерчантов-партнёров за их счёт. Тенге и золото предлагаются на равных.</li>
+    <li><b>Одна цена правды.</b> Курсы покупки и продажи всегда рядом, портфель оценивается по цене продажи, нигде нет «без комиссии».</li>
+    <li><b>Тенге хранятся в BCC.</b> Партнёры МФЦА вымышленные, с пометкой «(демо)», их кошельки доступны только для просмотра.</li>
+    <li><b>Бизнес-модель:</b> комиссия 1%, доля спреда, interchange по карте, плата мерчантов, маржа на остатках. Пользователь 18–24 приносит от <span class="num">+94 ₸</span> (консервативно) до <span class="num">+490 ₸</span> (база) в месяц.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Гипотезы</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>#</th><th>Гипотеза</th><th>Успех, если</th></tr></thead>
+    <tbody>
+      <tr><td class="k">H1</td><td>Онбординг «кто хранит / как платите / риск» повышает доверие и не снижает активацию</td><td>≥ 70% проходят знакомство и пополнение без подсказки</td></tr>
+      <tr><td class="k">H2</td><td>Порог 1 000 ₸ и цель «1 г» снимают барьер первой покупки для 18–24</td><td>≥ 60% доходят до подтверждённой покупки</td></tr>
+      <tr><td class="k">H3</td><td>Полный расчёт (комиссия, спред, «если продать сразу») повышает доверие</td><td>≥ 70% называют сумму при продаже с точностью ±10%</td></tr>
+      <tr><td class="k">H4</td><td>Если выбор равный, кешбэк граммами привлекательнее кешбэка в тенге</td><td>≥ 40% выбирают золото</td></tr>
+      <tr><td class="k">H5</td><td>Для 25–35 и Crypto Curious главная ценность — единый портфель с кошельком партнёра</td><td>≥ 50% подключают партнёра</td></tr>
+      <tr><td class="k">H6</td><td>Понятная ошибка курса не подрывает доверие</td><td>≥ 60% подтверждают новый курс или осознанно отменяют</td></tr>
+      <tr><td class="k">H7</td><td>Видимая цена продажи снимает страх, что деньги не забрать</td><td>≥ 70% могут сказать, как вывести деньги</td></tr>
+    </tbody>
+  </table></div>
+  <div class="grid2">
+    <div class="box">
+      <h3>Метрики для защиты</h3>
+      <ul>
+        <li><b>Активация:</b> знакомство → пополнение ≥ 50%, до главной с балансом &lt; 3 мин</li>
+        <li><b>Первая покупка:</b> ≥ 30% за 7 дней, открыли покупку → подтвердили ≥ 60%</li>
+        <li><b>Выбор кешбэка:</b> выбирают способ ≥ 80%, из них золото ≥ 40%</li>
+        <li><b>Возвраты:</b> D7 ≥ 35%, D30 ≥ 20%, повторная покупка ≥ 20%</li>
+        <li><b>North Star:</b> пользователи, у которых за 30 дней есть и тенге, и граммы</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>Гипотезы для банка</h3>
+      <ul>
+        <li>Приводим цифровую аудиторию, которой нет в базе BCC</li>
+        <li>Кешбэк граммами за счёт мерчантов работает как лояльность</li>
+        <li>Тенге остаются в BCC: их доля ≥ 30%, чистый приток &gt; 0</li>
+      </ul>
+    </div>
+  </div>
+  <div class="box">
+    <h3>Нужно подтвердить у банка, партнёров и юристов</h3>
+    <ul>
+      <li>Какая доля interchange достаётся BCC. От неё маржа 18–24 меняется с +490 до +94 ₸ в месяц</li>
+      <li>Как делится спред с хранителем и кто даёт твёрдую котировку</li>
+      <li>Правовая природа токена и доступ розничных клиентов РК к МФЦА</li>
+      <li>Можно ли использовать слово «банк» / «необанк» для отдельного бренда</li>
+      <li>Что делать в выходные, когда рынок золота закрыт</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Разработка после Figma</h2>
+  <div class="rule"><b>Правило:</b> внешний вид берём из Figma. Числа, тексты, ошибки и логику берём из продуктовой стратегии v2.1. Расхождения фиксируем списком.</div>
+  <ol class="stages">
+    <li><span class="tag">Шаг 0 · вход</span><h3>Передать макет кодеру</h3>
+      <ul><li>Ссылка на Figma и имена фреймов в <code>docs/03-figma.md</code></li><li>Доступ кодера к Figma: подключение через MCP или выгрузка фреймов и Variables</li><li>Сверка макета с цифрами стратегии</li><li>Финальное название приложения</li></ul></li>
+    <li><span class="tag">Шаг 1</span><h3>Каркас</h3>
+      <ul><li>Vite + React + TypeScript + Tailwind</li><li>Токены из Figma Variables с теми же именами</li><li>Рамка телефона 390×844 на десктопе, на телефоне — весь экран</li></ul></li>
+    <li><span class="tag">Шаг 2</span><h3>Данные и расчёты, до экранов</h3>
+      <ul><li>Моки: три профиля, котировки, комиссии, лимиты, партнёры</li><li>Единый модуль расчётов: граммы округляем вниз (6 знаков в реестре, 4 на экране), ₸ считаем от реестра</li><li>Порядок проверок: минимум → лимит → баланс → предупреждение</li><li>Тесты на опорные числа, задержка сети через <code>setTimeout</code></li></ul></li>
+    <li><span class="tag">Шаг 3</span><h3>Компоненты по именам из Figma</h3>
+      <ul><li>Button, AssetCard, PortfolioBar, QuoteTimer, FeeBreakdown, RiskBanner, PresetChip, AmountInput, RadioCard, PartnerRow, TabBar, BottomSheet, Toast, ErrorState</li></ul></li>
+    <li><span class="tag">Шаг 4</span><h3>Экраны</h3>
+      <ul><li>Онбординг и выбор профиля, главная, вкладки: Главная · Активы · Карта · Кешбэк · Профиль</li><li>Золото, пополнение, покупка (сумма → подтверждение с таймером → успех), кешбэк, подключение партнёра</li><li>Продать и вывести на карту, карта, история операций сессии, шторки «Кто хранит» и «Как считается цена»</li></ul></li>
+    <li><span class="tag">Шаг 5</span><h3>Состояния</h3>
+      <ul><li>«Курс обновился» в обе стороны: главная ошибка</li><li>Не хватает тенге, лимит, «проверяем статус» без двойного списания, предупреждение «больше 50% тенге»</li></ul></li>
+    <li><span class="tag">Шаг 6</span><h3>Демо и метрики</h3>
+      <ul><li>Скрытая панель сценариев: успешная покупка, ошибки, смена профиля, сброс</li><li>Локальный лог воронки и экран «Метрики демо»</li></ul></li>
+    <li><span class="tag">Шаг 7 · перед защитой</span><h3>Проверка и репетиция</h3>
+      <ul><li>Числа совпадают со стратегией, в тексте нет слов «доход», «гарантия», «депозит», «как вклад», «без комиссии»</li><li>Названия партнёров сверены с реестром AFSA и списком банков РК</li><li>Прогон на телефоне и десктопе, чистая сборка</li><li>Демо на 3–4 минуты: онбординг → пополнение → «Курс обновился» → отмена → покупка → кешбэк → партнёр → главная → метрики</li><li>Сборка опубликована по ссылке для жюри</li></ul></li>
+  </ol>
+</section>
+
+<section>
+  <h2>Покрытие пунктов защиты</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Пункт брифа</th><th>Где закрыт</th></tr></thead>
+    <tbody>
+      <tr><td>1. Сегмент, проблема, позиционирование, ценность</td><td>Стратегия, раздел 1; онбординг</td></tr>
+      <tr><td>2. Знакомство, главная, навигация, портфель</td><td>Онбординг, главная, 5 вкладок, экран «Золото»</td></tr>
+      <tr><td>3. Сквозной сценарий из ≥ 3 направлений</td><td>5 направлений в одном сценарии</td></tr>
+      <tr><td>4. Балансы, котировки, комиссии, риски, подтверждение, ошибка</td><td>Подтверждение покупки и «Курс обновился»</td></tr>
+      <tr><td>5. Метрики гипотезы</td><td>Экран «Метрики демо» и слайд с воронкой</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<footer>Все данные тестовые. Названия партнёров условные. Цифры interchange, спреда и маржи — допущения, их нужно проверить у банка и партнёров.</footer>
+</div>

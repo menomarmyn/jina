@@ -1,0 +1,25 @@
+/* Дизайн-токены. Имена держим как в Figma Variables; при приходе макета меняем только значения. */
+:root {
+  --backdrop: #E4E7E2;
+  --bg: #F4F5F2;
+  --surface: #FFFFFF;
+  --surface-2: #EEF1EC;
+  --text: #141A18;
+  --text-muted: #5D6763;
+  --border: #DEE2DC;
+  --accent: #155E54;
+  --accent-fg: #FFFFFF;
+  --accent-soft: #DCEDE8;
+  --gold: #8E6F1C;
+  --gold-soft: #F3EBD4;
+  --positive: #1E7A4C;
+  --negative: #B3261E;
+  --negative-soft: #FBE5E2;
+  --warning: #855600;
+  --warning-soft: #FBEFD5;
+  --radius-s: 10px;
+  --radius-m: 14px;
+  --radius-l: 22px;
+  --shadow-card: 0 1px 2px rgba(20, 26, 24, 0.05), 0 6px 18px rgba(20, 26, 24, 0.05);
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}

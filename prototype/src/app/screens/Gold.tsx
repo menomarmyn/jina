@@ -43,7 +43,7 @@ export function Gold() {
       <section className="bg-ink px-5 pb-6 pt-[max(18px,env(safe-area-inset-top))] text-white">
         <div className="text-center text-[15px] font-semibold">Золото</div>
         <div className="mt-4"><Sun progress={g.pct / 100} size={208}>
-          <span className="text-[12px] text-ink/70">у вас</span>
+          <span className="text-[12px] text-[rgba(11,37,64,.7)]">у вас</span>
           <span className="tnum font-display text-[22px] font-semibold">{grams(ug)}</span>
         </Sun></div>
         <div className="mt-5 text-center">

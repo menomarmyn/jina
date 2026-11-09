@@ -257,7 +257,7 @@ export function Sheet({ open, onClose, title, children }: { open: boolean; onClo
   if (!open) return null;
   return (
     <div className="absolute inset-0 z-40 flex flex-col justify-end" role="dialog" aria-modal="true" aria-label={title}>
-      <div className="anim-fade absolute inset-0 bg-ink/50" onClick={onClose} />
+      <div className="anim-fade absolute inset-0 bg-[rgba(11,37,64,.5)]" onClick={onClose} />
       <div className="anim-sheet scroll-area relative max-h-[90%] rounded-t-hero bg-paper px-5 pb-[max(20px,env(safe-area-inset-bottom))] pt-3">
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-line" />
         {title && <h2 className="mb-3 font-display text-[20px] font-semibold leading-tight tracking-[-0.01em]">{title}</h2>}
@@ -294,7 +294,7 @@ const TABS: { id: TabScreen; label: string; icon: string }[] = [
 ];
 export function TabBar({ active, onChange }: { active: TabScreen; onChange: (t: TabScreen) => void }) {
   return (
-    <nav className="flex shrink-0 border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur" aria-label="Разделы">
+    <nav className="flex shrink-0 border-t border-line bg-[rgba(255,255,255,.95)] pb-[env(safe-area-inset-bottom)] backdrop-blur" aria-label="Разделы">
       {TABS.map((t) => (
         <button key={t.id} type="button" onClick={() => onChange(t.id)} aria-current={active === t.id ? 'page' : undefined}
           className={cx('flex min-h-[58px] flex-1 flex-col items-center justify-center gap-0.5 text-[11px] font-medium', active === t.id ? 'text-ink' : 'text-muted')}>

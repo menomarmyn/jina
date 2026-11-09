@@ -36,7 +36,7 @@ function Shell() {
     // На широком экране — рамка телефона 390×844 на фоне; в iframe сайта-кейса и на телефоне — во весь экран
     <div className="flex min-h-full items-center justify-center bg-[#E7EEF1] sm:py-8">
       <div className="relative flex h-[100dvh] w-full flex-col overflow-hidden bg-paper sm:h-[844px] sm:w-[390px] sm:rounded-[48px] sm:shadow-[0_0_0_10px_#0B2540,0_30px_80px_-20px_rgba(11,37,64,.45)]">
-        <main key={s.screen === 'lesson' ? `lesson-${s.lessonId}` : s.screen} className="anim-fade scroll-area flex flex-1 flex-col">
+        <main key={s.screen === 'lesson' ? `lesson-${s.lessonId}` : s.screen} className="scroll-area flex flex-1 flex-col">
           <Current />
         </main>
         {isTab && <TabBar active={s.screen as TabScreen} onChange={(t) => d({ type: 'NAV', to: t })} />}

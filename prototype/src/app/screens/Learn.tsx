@@ -71,14 +71,14 @@ export function LessonScreen() {
       </div>
       <div className="scroll-area flex flex-1 flex-col px-5 pb-4 pt-8">
         {step < quizStep ? (
-          <div key={step} className="anim-fade">
+          <div key={step}>
             <div className="text-[14px] text-muted">{lesson.title}</div>
             <Display className="mt-3 text-[26px] leading-[1.15]">{card.title}</Display>
             <p className="mt-4 text-[17px] leading-relaxed text-ink">{card.text}</p>
             {card.example && <p className="tnum mt-5 rounded-field bg-sun-soft px-4 py-3 text-[15px] font-medium">{card.example}</p>}
           </div>
         ) : (
-          <div className="anim-fade">
+          <div>
             <div className="text-[14px] text-muted">Проверим понимание</div>
             <Display className="mt-3 text-[22px] leading-[1.2]">{lesson.quiz.question}</Display>
             <div className="mt-6 flex flex-col gap-2.5" role="radiogroup">
@@ -98,7 +98,7 @@ export function LessonScreen() {
               })}
             </div>
             {answered && (
-              <div className="anim-fade mt-5 rounded-field bg-surface px-4 py-3">
+              <div className="mt-5 rounded-field bg-surface px-4 py-3">
                 <div className={cx('text-[15px] font-semibold', correct ? 'text-sky-ink' : 'text-danger')}>{correct ? 'Верно' : 'Не совсем'}</div>
                 <p className="mt-1 text-[15px] leading-snug">{lesson.quiz.explain}</p>
               </div>

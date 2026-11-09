@@ -35,7 +35,7 @@ export function Onboarding() {
         <span className="rounded-full bg-white/10 px-3 py-1 text-[12px] text-white/75">Демо · данные тестовые</span>
       </div>
       <div className="flex flex-1 flex-col justify-center">
-        <div key={i} className="anim-fade"><Sun progress={s.progress} animateFrom={i === 0 ? 0 : SLIDES[i - 1].progress} size={196} /></div>
+        <div key={i}><Sun progress={s.progress} animateFrom={i === 0 ? 0 : SLIDES[i - 1].progress} size={196} /></div>
         <Display className="mt-8 text-[30px] leading-[1.12] text-white">{s.title}</Display>
         <p className="mt-4 max-w-[34ch] text-[16px] leading-relaxed text-white/75">{s.body}</p>
       </div>

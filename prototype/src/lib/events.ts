@@ -6,12 +6,13 @@ export type EventName =
   | 'purchase_submitted' | 'purchase_succeeded' | 'purchase_failed' | 'purchase_cancelled'
   | 'cashback_choice_shown' | 'cashback_choice_saved'
   | 'partner_consent_started' | 'partner_sync_succeeded'
-  | 'sale_started' | 'sale_succeeded';
+  | 'sale_started' | 'sale_succeeded'
+  | 'lesson_started' | 'quiz_answered';
 
 export interface AppEvent { name: EventName; ts: number; is_demo: true; app_version: string; profile: string; [k: string]: unknown }
 
-const KEY = 'neobank-demo-events';
-const APP_VERSION = '0.1.0-p0';
+const KEY = 'jina-demo-events';
+const APP_VERSION = '0.3.0-jina';
 let profile = 'dauren';
 let log: AppEvent[] = [];
 try { log = JSON.parse(localStorage.getItem(KEY) ?? '[]'); } catch { log = []; }

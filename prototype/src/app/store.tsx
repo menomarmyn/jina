@@ -1,13 +1,13 @@
 // Единый store: useReducer + context. Сохранение в localStorage в try/catch, без него всё работает.
 import { createContext, useContext, useEffect, useReducer, type Dispatch, type ReactNode } from 'react';
-import { PROFILES, type Holding, type ProfileId } from './mocks/data';
-import { applyOp, type Ledger, type Op } from './lib/ledger';
-import type { E1Mode } from './lib/quotes';
-import { setEventProfile } from './lib/events';
+import { PROFILES, type Holding, type ProfileId } from '../mocks/data';
+import { applyOp, type Ledger, type Op } from '../lib/ledger';
+import type { E1Mode } from '../lib/quotes';
+import { setEventProfile } from '../lib/events';
 
-export type TabScreen = 'home' | 'assets' | 'card' | 'cashback' | 'me';
-export type Screen = 'onboarding' | 'profile' | TabScreen | 'topup' | 'buy' | 'confirm' | 'pending' | 'success' | 'partner' | 'sell' | 'sellSuccess' | 'metrics' | 'history' | 'gold';
-export const TAB_SCREENS: TabScreen[] = ['home', 'assets', 'card', 'cashback', 'me'];
+export type TabScreen = 'home' | 'gold' | 'learn' | 'me';
+export type Screen = 'onboarding' | TabScreen | 'topup' | 'buy' | 'confirm' | 'pending' | 'success' | 'partner' | 'sell' | 'sellSuccess' | 'metrics' | 'history' | 'cashback' | 'lesson';
+export const TAB_SCREENS: TabScreen[] = ['home', 'gold', 'learn', 'me'];
 
 export interface Demo { e1: E1Mode; e4: boolean; shuffleCashback: boolean }
 
@@ -27,6 +27,8 @@ export interface State {
   expireNonce: number;
   toast: { id: number; text: string } | null;
   sheet: SheetId | null;
+  lessons: Record<string, { correct: boolean }>;
+  lessonId: string | null;
 }
 
 export type SheetId = 'custody' | 'pricing';
@@ -48,6 +50,8 @@ export type Action =
   | { type: 'TOAST'; text: string }
   | { type: 'CLEAR_TOAST' }
   | { type: 'SHEET'; sheet: SheetId | null }
+  | { type: 'OPEN_LESSON'; id: string }
+  | { type: 'FINISH_LESSON'; id: string; correct: boolean }
   | { type: 'RESET'; profileId?: ProfileId; onboarded?: boolean }
   | { type: 'LOAD_FINAL' }
   | { type: 'PRESET_ERROR'; kzt: number; amount: number };
@@ -72,6 +76,8 @@ function freshFor(profileId: ProfileId, onboarded: boolean, demo: Demo = DEMO_DE
     expireNonce: 0,
     toast: null,
     sheet: null,
+    lessons: {},
+    lessonId: null,
   };
 }
 
@@ -88,7 +94,7 @@ function reducer(s: State, a: Action): State {
       return prev ? { ...s, screen: prev, history: s.history.slice(0, -1) } : { ...s, screen: 'home' };
     }
     case 'FINISH_ONBOARDING':
-      return { ...s, screen: 'profile', history: [] };
+      return { ...freshFor('dauren', true, s.demo), lessons: s.lessons };
     case 'SELECT_PROFILE':
       return { ...freshFor(a.id, true, s.demo), toast: null };
     case 'APPLY_OP':
@@ -117,6 +123,10 @@ function reducer(s: State, a: Action): State {
       return { ...s, toast: null };
     case 'SHEET':
       return { ...s, sheet: a.sheet, demoOpen: false };
+    case 'OPEN_LESSON':
+      return { ...s, lessonId: a.id, screen: 'lesson', history: s.screen === 'lesson' ? s.history : [...s.history, s.screen] };
+    case 'FINISH_LESSON':
+      return { ...s, lessons: { ...s.lessons, [a.id]: { correct: a.correct } } };
     case 'RESET':
       return freshFor(a.profileId ?? s.profileId, a.onboarded ?? false, s.demo);
     case 'LOAD_FINAL': {
@@ -143,7 +153,7 @@ function reducer(s: State, a: Action): State {
   }
 }
 
-const KEY = 'neobank-demo-state-v1';
+const KEY = 'jina-state-v1';
 const TRANSIENT: Screen[] = ['confirm', 'pending', 'success', 'sellSuccess'];
 
 function load(): State {
@@ -153,6 +163,7 @@ function load(): State {
     if (!raw) return initial;
     const saved = JSON.parse(raw) as Partial<State>;
     const s = { ...initial, ...saved, demoOpen: false, toast: null, sheet: null, expireNonce: 0 } as State;
+    if (!s.lessons) s.lessons = {};
     if (TRANSIENT.includes(s.screen)) return { ...s, screen: s.onboarded ? 'home' : 'onboarding', history: [] };
     return s;
   } catch {

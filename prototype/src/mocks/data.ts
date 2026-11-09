@@ -1,7 +1,7 @@
 // Синтетические данные демо. Источник чисел — docs/01-product-strategy.md, раздел 7.
 // Тенге — целые ₸, граммы — целые микрограммы (1 г = 1 000 000 µg).
 
-export const APP_NAME = 'JINABACK';
+export const APP_NAME = 'JINA';
 export const QUOTE_TIME_LABEL = 'чт, 5 ноября, 14:32';
 export const UPDATED_AT = '14:32';
 
@@ -59,7 +59,7 @@ export const PARTNERS: PartnerDef[] = [
   { id: 'nordwyn', name: 'Nordwyn Digital (демо)', note: 'Биржа-партнёр МФЦА (демо)' },
 ];
 
-export type ProfileId = 'dauren' | 'aigerim' | 'erlan';
+export type ProfileId = 'dauren';
 export interface Profile {
   id: ProfileId;
   name: string;
@@ -75,30 +75,11 @@ export interface Profile {
 
 export const PROFILES: Record<ProfileId, Profile> = {
   dauren: {
-    id: 'dauren', name: 'Даурен', age: 20, segment: 'Digital Natives, 18–24',
+    id: 'dauren', name: 'Даурен', age: 20, segment: '18–24',
     about: 'Студент с подработкой. Начинает с нуля.',
     start: { kzt: 0, goldUg: 0, goldCost: 0 },
     connected: {},
     offer: { vexelia: [{ asset: 'USDT', qtyMinor: 2_000, decimals: 2 }], nordwyn: [] },
     spend: 79_200, merchantSpend: 4_950,
-  },
-  aigerim: {
-    id: 'aigerim', name: 'Айгерим', age: 29, segment: 'Mass Affluent, 25–35',
-    about: 'Продуктовый аналитик. Откладывает в золото каждый месяц.',
-    start: { kzt: 400_000, goldUg: 2_400_000, goldCost: null },
-    connected: { vexelia: [{ asset: 'USDT', qtyMinor: 50_000, decimals: 2 }] },
-    offer: { nordwyn: [] },
-    spend: 300_000, merchantSpend: 24_000,
-  },
-  erlan: {
-    id: 'erlan', name: 'Ерлан', age: 34, segment: 'Crypto Curious',
-    about: 'Инженер. Держит крипту на двух биржах, золота пока нет.',
-    start: { kzt: 120_000, goldUg: 0, goldCost: 0 },
-    connected: {
-      vexelia: [{ asset: 'USDT', qtyMinor: 120_000, decimals: 2 }],
-      nordwyn: [{ asset: 'BTC', qtyMinor: 1_000_000, decimals: 8 }],
-    },
-    offer: {},
-    spend: 150_000, merchantSpend: 22_500,
   },
 };

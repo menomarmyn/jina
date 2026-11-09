@@ -1,6 +1,6 @@
 import { ASSET_PRICE, GOLD, type Holding } from '../mocks/data';
 import { changePct, holdingValue, portfolio, valueUg } from './calc';
-import type { State } from '../store';
+import type { State } from '../app/store';
 
 export function partnerValue(h: Holding[], yesterday = false) {
   return h.reduce((s, x) => s + holdingValue(x.qtyMinor, x.decimals, yesterday ? ASSET_PRICE[x.asset].bidYesterday : ASSET_PRICE[x.asset].bid), 0);

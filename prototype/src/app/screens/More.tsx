@@ -51,10 +51,10 @@ export function Cashback() {
     setLoading(true); await netDelay();
     d({ type: 'SET_CASHBACK', mode: sel });
     track('cashback_choice_saved', { mode: sel });
-    d({ type: 'TOAST', text: sel === 'gold' ? 'Кешбэк будет приходить граммами' : 'Кешбэк будет приходить в тенге' });
     setLoading(false);
     const partnerLeft = PARTNERS.some((x) => !s.partners[x.id] && p.offer[x.id]?.length);
     d({ type: 'NAV', to: partnerLeft ? 'partner' : 'home', replace: true });
+    d({ type: 'TOAST', text: sel === 'gold' ? 'Кешбэк будет приходить граммами' : 'Кешбэк будет приходить в тенге' });
   };
   const Option = ({ id, title, children }: { id: 'kzt' | 'gold'; title: string; children: ReactNode }) => (
     <button type="button" role="radio" aria-checked={sel === id} onClick={() => setSel(id)}

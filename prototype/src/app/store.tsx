@@ -87,8 +87,9 @@ function reducer(s: State, a: Action): State {
   switch (a.type) {
     case 'NAV':
       if (a.to === s.screen) return s;
-      if ((TAB_SCREENS as Screen[]).includes(a.to) && !a.replace) return { ...s, screen: a.to, history: [] };
-      return { ...s, screen: a.to, history: a.replace ? s.history : [...s.history, s.screen] };
+      // Переход на другой экран закрывает уведомление прошлого шага, чтобы оно не перекрывало кнопки
+      if ((TAB_SCREENS as Screen[]).includes(a.to) && !a.replace) return { ...s, screen: a.to, history: [], toast: null };
+      return { ...s, screen: a.to, history: a.replace ? s.history : [...s.history, s.screen], toast: null };
     case 'BACK': {
       const prev = s.history[s.history.length - 1];
       return prev ? { ...s, screen: prev, history: s.history.slice(0, -1) } : { ...s, screen: 'home' };

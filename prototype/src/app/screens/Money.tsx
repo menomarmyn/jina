@@ -56,6 +56,8 @@ export function BuyAmount() {
   const [touched, setTouched] = useState(false);
   const [loading, setLoading] = useState(false);
   useEffect(() => { track('purchase_started'); }, []);
+  // Демо-панель может подставить сумму, когда экран уже открыт
+  useEffect(() => { if (s.draftBuy !== null) { setAmount(s.draftBuy); setTouched(false); } }, [s.draftBuy]);
   const q = quoteBuy(amount ?? 0, GOLD.ask, GOLD.bid, FEE_BUY_BP);
   const available = Math.max(0, LIMITS.daily - s.ledger.spentToday);
   const check = validateBuy(amount ?? 0, { kzt: s.ledger.kzt, spentToday: s.ledger.spentToday, min: LIMITS.min, dailyLimit: LIMITS.daily });

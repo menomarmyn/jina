@@ -78,7 +78,7 @@ export function Home() {
         <Group>
           {Object.entries(s.partners).map(([id, h]) => (
             <Row key={id} icon={<Icon name="link" />} label={PARTNERS.find((x) => x.id === id)?.name ?? id}
-              sub={`${h.map((x) => `${qty(x.qtyMinor, x.decimals)} ${x.asset}`).join(' · ')} · только просмотр · ${UPDATED_AT}`}
+              sub={`${h.map((x) => `${qty(x.qtyMinor, x.decimals)} ${x.asset}`).join(' · ')} · только просмотр · ориентировочно, ${UPDATED_AT}`}
               value={`≈ ${kzt(partnerValue(h))}`} />
           ))}
           {canConnect && <Row icon={<Icon name="link" />} label="Подключить биржу" sub="Баланс в общем обзоре, только просмотр" onClick={() => d({ type: 'NAV', to: 'partner' })} />}

@@ -2,8 +2,12 @@
 import type { ReactNode } from 'react';
 import { Sun } from '../app/ui';
 
-// Заполните перед публикацией
-export const AUTHOR = { name: 'Ваше имя', role: 'Продакт-менеджер', linkedin: '', github: '' };
+export const AUTHOR = {
+  name: 'Omar Seilbek',
+  role: 'Продакт-менеджер',
+  linkedin: 'https://kz.linkedin.com/in/omar-seilbek-2b6507304',
+  github: 'https://github.com/menomarmyn/jina',
+};
 
 const Section = ({ id, title, lead, children, tone = 'light' }: { id: string; title: string; lead?: string; children: ReactNode; tone?: 'light' | 'white' }) => (
   <section id={id} className={tone === 'white' ? 'bg-surface' : ''}>
